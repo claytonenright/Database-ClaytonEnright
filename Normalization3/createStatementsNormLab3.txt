@@ -275,7 +275,7 @@ INSERT INTO suppliers( supid, name, streetNum, streetName, zip, payTerms )
   VALUES( 'sup02', 'Part Depot', 99, 'Hollis Street', '01450', '60day' );
 
 INSERT INTO suppliers( supid, name, streetNum, streetName, zip, payTerms )
-  VALUES( 'sup03', 'Widgets', 101, 'Delafield', '90210', '30day' );
+  VALUES( 'sup03', 'Widgets', 101, 'Delafield', '12601', '30day' );
 
 
 --Catalog--
