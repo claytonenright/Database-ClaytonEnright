@@ -1,0 +1,298 @@
+--Create Statements--
+
+CREATE TABLE people (
+  pid         char(3) not null,
+  firstName   text,
+  lastName    text,
+  age         integer,
+ primary key(pid)
+);
+
+CREATE TABLE astronauts (
+  pid          char(3) not null references people(pid),
+  yearsFlying  integer,
+ primary key(pid)
+);
+
+CREATE TABLE engineers (
+  pid         char(3) not null references people(pid),
+  highestDeg  text,
+ primary key(pid)
+);
+
+CREATE TABLE flightcontrol (
+  pid        char(3) not null references people(pid),
+  prefChair  integer,
+ primary key(pid)
+);
+
+CREATE TABLE spacecraft (
+  sid         char(3) not null,
+  name        text,
+  tailNum     integer,
+  weightTons  integer,
+  fuelType    text,
+  crewCap     integer,
+ primary key(sid)
+);
+
+CREATE TABLE crew (
+  pid    char(3) not null references people(pid),
+  sid    char(3) not null references spacecraft(sid),
+ primary key(pid, sid)
+);
+
+CREATE TABLE systems (
+  sysid        char(5) not null,
+  name         text,
+  descrip      text,
+ primary key(sysid)
+);
+
+CREATE TABLE syssetup (
+  sid    char(3) not null references spacecraft(sid),
+  sysid  char(5) not null references systems(sysid),
+ primary key(sid, sysid)
+);
+
+CREATE TABLE parts (
+  partid      char(7) not null,
+  name        text,
+  descrip     text,
+ primary key(partid)
+);
+
+CREATE TABLE partsetup (
+  sysid    char(5) not null references systems(sysid),
+  partid   char(7) not null references parts(partid),
+ primary key(sysid, partid)
+);
+
+CREATE TABLE zipcode (
+  zip     char(5) not null,
+  state   text,
+  city    text,
+ primary key(zip)
+);
+
+CREATE TABLE suppliers (
+  supid       char(5) not null,
+  name        text,
+  streetNum   integer,
+  streetName  text,
+  zip         char(5) not null references zipcode(zip),
+  payTerms    char(5),
+ primary key(supid)
+);
+
+CREATE TABLE catalog (
+  partid   char(7) not null references parts(partid),
+  supid    char(5) not null references suppliers(supid),
+ primary key(partid, supid)
+);
+
+
+
+--Insert Statements--
+
+--People--
+
+INSERT INTO people( pid, firstName, lastName, age )
+  VALUES('p01', 'Jason', 'Butler', 28 );
+
+INSERT INTO people( pid, firstName, lastName, age )
+  VALUES('p02', 'Dave', 'Jones', 31 );
+
+INSERT INTO people( pid, firstName, lastName, age )
+  VALUES('p03', 'Eric', 'Becker', 33 );
+
+INSERT INTO people( pid, firstName, lastName, age )
+  VALUES('p04', 'George', 'Fisher', 42 );
+
+INSERT INTO people( pid, firstName, lastName, age )
+  VALUES('p05', 'Greg', 'Puciato', 29 );
+
+INSERT INTO people( pid, firstName, lastName, age )
+  VALUES('p06', 'Craig', 'Owens', 26 );
+
+INSERT INTO people( pid, firstName, lastName, age )
+  VALUES('p07', 'Chris', 'Barnes', 45 );
+
+
+--Astronauts--
+
+INSERT INTO astronauts( pid, yearsFlying )
+  VALUES('p01', 1 );
+
+INSERT INTO astronauts( pid, yearsFlying )
+  VALUES('p02', 2 );
+
+INSERT INTO astronauts( pid, yearsFlying )
+  VALUES('p03', 3 );
+
+
+--Engineers--
+
+INSERT INTO engineers( pid, highestDeg )
+  VALUES('p01', 'Bachelors' );
+
+INSERT INTO engineers( pid, highestDeg )
+  VALUES('p05', 'Masters' );
+
+INSERT INTO engineers( pid, highestDeg )
+  VALUES('p06', 'PHD' );
+
+
+--Flight Controllers--
+
+INSERT INTO flightcontrol( pid, prefChair )
+  VALUES('p04', 10 );
+
+INSERT INTO flightcontrol( pid, prefChair )
+  VALUES('p07', 11 );
+
+
+--Spacecraft--
+
+INSERT INTO spacecraft( sid, name, tailNum, weightTons, fuelType, crewCap )
+  VALUES('s01', 'Nina', 100, 80, 'Diesel', 4 );
+
+INSERT INTO spacecraft( sid, name, tailNum, weightTons, fuelType, crewCap )
+  VALUES('s02', 'Pinta', 200, 75, 'Unleaded', 3 );
+
+INSERT INTO spacecraft( sid, name, tailNum, weightTons, fuelType, crewCap )
+  VALUES('s03', 'Santa Maria', 300, 90, 'Fun Fuel', 5 );
+
+
+--Crew--
+
+INSERT INTO crew( pid, sid )
+  VALUES('p01', 's01' );
+
+INSERT INTO crew( pid, sid )
+  VALUES('p02', 's01' );
+
+INSERT INTO crew( pid, sid )
+  VALUES('p03', 's01' );
+
+
+--Systems--
+
+INSERT INTO systems( sysid, name, descrip )
+  VALUES('sys01', 'Nav', 'Navigation controls' );
+
+INSERT INTO systems( sysid, name, descrip )
+  VALUES('sys02', 'Temp', 'Temperature control' );
+
+INSERT INTO systems( sysid, name, descrip )
+  VALUES('sys03', 'Launch', 'Launch command controls' );
+
+
+--SysSetup--
+
+INSERT INTO syssetup( sid, sysid )
+  VALUES('s01', 'sys01' );
+
+INSERT INTO syssetup( sid, sysid )
+  VALUES('s01', 'sys02' );
+
+INSERT INTO syssetup( sid, sysid )
+  VALUES('s01', 'sys03' );
+
+INSERT INTO syssetup( sid, sysid )
+  VALUES('s02', 'sys01' );
+
+INSERT INTO syssetup( sid, sysid )
+  VALUES('s02', 'sys02' );
+
+INSERT INTO syssetup( sid, sysid )
+  VALUES('s02', 'sys03' );
+
+INSERT INTO syssetup( sid, sysid )
+  VALUES('s03', 'sys01' );
+
+INSERT INTO syssetup( sid, sysid )
+  VALUES('s03', 'sys02' );
+
+INSERT INTO syssetup( sid, sysid )
+  VALUES('s03', 'sys03' );
+
+
+--Parts--
+
+INSERT INTO parts( partid, name, descrip )
+  VALUES('part001', 'pclip', 'standard paperclip' );
+
+INSERT INTO parts( partid, name, descrip )
+  VALUES('part002', 'rband', 'rubber band' );
+
+INSERT INTO parts( partid, name, descrip )
+  VALUES('part003', 'glue', 'craft glue' );
+
+
+--PartSetup--
+
+INSERT INTO partsetup( sysid, partid )
+  VALUES('sys01', 'part001' );
+
+INSERT INTO partsetup( sysid, partid )
+  VALUES('sys01', 'part002' );
+
+INSERT INTO partsetup( sysid, partid )
+  VALUES('sys02', 'part001' );
+
+INSERT INTO partsetup( sysid, partid )
+  VALUES('sys02', 'part003' );
+
+INSERT INTO partsetup( sysid, partid )
+  VALUES('sys03', 'part001' );
+
+INSERT INTO partsetup( sysid, partid )
+  VALUES('sys03', 'part002' );
+
+INSERT INTO partsetup( sysid, partid )
+  VALUES('sys03', 'part003' );
+
+
+--ZipCode-
+
+INSERT INTO zipcode( zip, state, city )
+  VALUES('01450', 'Massachusetts', 'Groton' );
+
+INSERT INTO zipcode( zip, state, city )
+  VALUES('12601', 'New York', 'Poughkeepsie' );
+
+INSERT INTO zipcode( zip, state, city )
+  VALUES('90210', 'California', 'Beverly Hills' );
+
+
+--Suppliers--
+
+INSERT INTO suppliers( supid, name, streetNum, streetName, zip, payTerms )
+  VALUES( 'sup01', 'Acme', 24, 'Ocean Avenue', '90210', '30day' );
+
+INSERT INTO suppliers( supid, name, streetNum, streetName, zip, payTerms )
+  VALUES( 'sup02', 'Part Depot', 99, 'Hollis Street', '01450', '60day' );
+
+INSERT INTO suppliers( supid, name, streetNum, streetName, zip, payTerms )
+  VALUES( 'sup03', 'Widgets', 101, 'Delafield', '90210', '30day' );
+
+
+--Catalog--
+
+INSERT INTO catalog( partid, supid )
+  VALUES('part001', 'sup01' );
+
+INSERT INTO catalog( partid, supid )
+  VALUES('part002', 'sup02' );
+
+INSERT INTO catalog( partid, supid )
+  VALUES('part003', 'sup03' );
+
+
+
+
+
+
+
+
