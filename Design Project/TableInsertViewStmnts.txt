@@ -1,0 +1,586 @@
+-- Create Table Statements --
+
+
+-- People --
+CREATE TABLE people (
+  pid          char(5) not null,
+  firstName    text,
+  lastName     text,
+  birthCity    text,
+  birthState   text,
+  birthCountry text,
+  birthDate    char(8),
+ primary key(pid)
+);
+
+-- Vocalist --
+CREATE TABLE vocalist (
+  pid         char(5) not null references people(pid),
+  micBrand    text,
+  vocalRange  text,
+ primary key(pid)
+);
+
+-- Guitarist --
+CREATE TABLE guitarist (
+  pid         char(5) not null references people(pid),
+  guitar      text,
+  strings     text,
+  amp         text,
+  pick        text,
+ primary key(pid)
+);
+
+-- Drummer --
+CREATE TABLE drummer (
+  pid         char(5) not null references people(pid),
+  kit         text,
+  cymbals     text,
+  sticks      text,
+ primary key(pid)
+);
+
+-- Bassist --
+CREATE TABLE bassist (
+  pid         char(5) not null references people(pid),
+  bass        text,
+  strings     text,
+  amp         text,
+ primary key(pid)
+);
+
+-- Keyboardist --
+CREATE TABLE keyboardist (
+  pid         char(5) not null references people(pid),
+  keyboard    text,
+  keyNumber   integer,
+ primary key(pid)
+);
+
+-- Label --
+CREATE TABLE label (
+  lid         char(4) not null,
+  name        text,
+  city        text,
+  state       text,
+  country     text,
+ primary key(lid)
+);
+
+-- Band --
+CREATE TABLE band (
+  bid         char(5) not null,
+  name        text,
+  yearFormed  integer,
+  homeCity    text,
+  homeState   text,
+  homeCountry text,
+  genre       text,
+  lid         char(4) not null references label(lid),
+ primary key(bid)
+);
+
+-- PlaysIn --
+CREATE TABLE playsin (
+  pid         char(5) not null references people(pid),
+  bid         char(5) not null references band(bid),
+ primary key(pid, bid)
+);
+
+-- Album --
+CREATE TABLE album (
+  aid         char(6) not null,
+  title       text,
+  bid         char(5) not null references band(bid),
+  lid         char(4) not null references label(lid),
+  releaseYear integer,
+ primary key(aid)
+);
+
+-- Track --
+CREATE TABLE track (
+  name        text not null,
+  aid         char(6) not null references album(aid),
+  lengthMin   integer,
+ primary key(name, aid)
+);
+
+-- Studios --
+CREATE TABLE studio (
+  sid         char(4) not null,
+  name        text,
+  city        text,
+  state       text,
+  country     text,
+ primary key(sid)
+);
+
+-- RecordingSession --
+CREATE TABLE recsession (
+  sid        char(4) not null references studio(sid),
+  bid        char(5) not null references band(bid),
+  startDate  char(8) not null,
+  endDate    char(8),
+ primary key (sid, bid, startDate)
+);
+
+
+
+-- Insert Statements --
+
+
+
+-- People --
+INSERT INTO people( pid, firstName, lastName, birthCity, birthState, birthCountry, birthDate )
+  VALUES('p0001', 'John', 'Osbourne', 'Birmingham', 'n/a', 'England', '12/03/48' );
+
+INSERT INTO people( pid, firstName, lastName, birthCity, birthState, birthCountry, birthDate )
+  VALUES('p0002', 'Tony', 'Iommi', 'Birmingham', 'n/a', 'England', '02/19/48' );
+
+INSERT INTO people( pid, firstName, lastName, birthCity, birthState, birthCountry, birthDate )
+  VALUES('p0003', 'Terrence', 'Butler', 'Birmingham', 'n/a', 'England', '07/17/49' );
+
+INSERT INTO people( pid, firstName, lastName, birthCity, birthState, birthCountry, birthDate )
+  VALUES('p0004', 'Bill', 'Ward', 'Birmingham', 'n/a', 'England', '05/05/38' );
+
+INSERT INTO people( pid, firstName, lastName, birthCity, birthState, birthCountry, birthDate )
+  VALUES('p0005', 'Robb', 'Flynn', 'Oakland', 'CA', 'USA', '07/19/68' );
+
+INSERT INTO people( pid, firstName, lastName, birthCity, birthState, birthCountry, birthDate )
+  VALUES('p0006', 'Adam', 'Duce', 'Oakland', 'CA', 'USA', '09/04/72' );
+
+INSERT INTO people( pid, firstName, lastName, birthCity, birthState, birthCountry, birthDate )
+  VALUES('p0007', 'Phil', 'Demmel', 'Oakland', 'CA', 'USA', '04/02/67' );
+
+INSERT INTO people( pid, firstName, lastName, birthCity, birthState, birthCountry, birthDate )
+  VALUES('p0008', 'Dave', 'McClain', 'Wiesbaden', 'n/a', 'Germany', '10/24/65' );
+
+INSERT INTO people( pid, firstName, lastName, birthCity, birthState, birthCountry, birthDate )
+  VALUES('p0009', 'George', 'Fisher', 'Tampa', 'FL', 'USA', '09/03/70' );
+
+INSERT INTO people( pid, firstName, lastName, birthCity, birthState, birthCountry, birthDate )
+  VALUES('p0010', 'Alex', 'Webster', 'Akron', 'NY', 'USA', '10/25/69' );
+
+INSERT INTO people( pid, firstName, lastName, birthCity, birthState, birthCountry, birthDate )
+  VALUES('p0011', 'Paul', 'Mazurkiewicz', 'Albany', 'NY', 'USA', '09/08/68' );
+
+INSERT INTO people( pid, firstName, lastName, birthCity, birthState, birthCountry, birthDate )
+  VALUES('p0012', 'Pat', 'OBrien', 'Hebron', 'KY', 'USA', '12/15/68' );
+
+INSERT INTO people( pid, firstName, lastName, birthCity, birthState, birthCountry, birthDate )
+  VALUES('p0013', 'Dave', 'Davidson', 'Boston', 'MA', 'USA', '05/20/89' );
+
+INSERT INTO people( pid, firstName, lastName, birthCity, birthState, birthCountry, birthDate )
+  VALUES('p0014', 'Brett', 'Bamberger', 'Allston', 'MA', 'USA', '12/01/89' );
+
+INSERT INTO people( pid, firstName, lastName, birthCity, birthState, birthCountry, birthDate )
+  VALUES('p0015', 'Phil', 'Dubois', 'Lowell', 'MA', 'USA', '08/12/88' );
+
+INSERT INTO people( pid, firstName, lastName, birthCity, birthState, birthCountry, birthDate )
+  VALUES('p0016', 'Aaron', 'Beam', 'Portland', 'OR', 'USA', '09/29/74' );
+
+INSERT INTO people( pid, firstName, lastName, birthCity, birthState, birthCountry, birthDate )
+  VALUES('p0017', 'Bryan', 'Giles', 'Portland', 'OR', 'USA', '02/06/73' );
+
+INSERT INTO people( pid, firstName, lastName, birthCity, birthState, birthCountry, birthDate )
+  VALUES('p0018', 'John', 'Sherman', 'Portland', 'OR', 'USA', '04/10/74' );
+
+INSERT INTO people( pid, firstName, lastName, birthCity, birthState, birthCountry, birthDate )
+  VALUES('p0019', 'Jordan', 'Rudess', 'Danbury', 'CT', 'USA', '06/10/69' );
+
+
+
+-- Vocalist Table --
+INSERT INTO vocalist( pid, micBrand, vocalRange )
+  VALUES('p0001', 'Shure', 'Tenor' );
+
+INSERT INTO vocalist( pid, micBrand, vocalRange )
+  VALUES('p0005', 'Audio Technica', 'Baritone' );
+
+INSERT INTO vocalist( pid, micBrand, vocalRange )
+  VALUES('p0009', 'Sennheiser', 'Bass' );
+
+INSERT INTO vocalist( pid, micBrand, vocalRange )
+  VALUES('p0013', 'Shure', 'Tenor' );
+
+INSERT INTO vocalist( pid, micBrand, vocalRange )
+  VALUES('p0016', 'AKG', 'Baritone' );
+
+
+
+-- Guitarist Table --
+INSERT INTO guitarist( pid, guitar, strings, amp, pick )
+  VALUES('p0002', 'Gibson SG', 'Ernie Ball', 'Marshall', 'Dunlop' );
+
+INSERT INTO guitarist( pid, guitar, strings, amp, pick )
+  VALUES('p0005', 'Gibson Flying V', 'Dunlop', 'Peavy', 'Dunlop' );
+
+INSERT INTO guitarist( pid, guitar, strings, amp, pick )
+  VALUES('p0007', 'Jackson PDX', 'GHS Boomers', 'Peavy', 'Fender' );
+
+INSERT INTO guitarist( pid, guitar, strings, amp, pick )
+  VALUES('p0012', 'BC Rich', 'DR', 'Mesa Boogie', 'Dunlop' );
+
+INSERT INTO guitarist( pid, guitar, strings, amp, pick )
+  VALUES('p0013', 'Jackson Signature', 'Ernie Ball', 'EVH', 'Planet Waves' );
+
+INSERT INTO guitarist( pid, guitar, strings, amp, pick )
+  VALUES('p0017', 'Framus', 'Ernie Ball', 'Fender', 'Fender' );
+
+
+
+-- Drummer Table --
+INSERT INTO drummer( pid, kit, cymbals, sticks )
+  VALUES('p0004', 'Tama', 'Zildjian', 'Tama' );
+
+INSERT INTO drummer( pid, kit, cymbals, sticks )
+  VALUES('p0008', 'Yamaha', 'AA', 'Vic Firth' );
+
+INSERT INTO drummer( pid, kit, cymbals, sticks )
+  VALUES('p0011', 'Pearl', 'Zildjian', 'Vic Firth' );
+
+INSERT INTO drummer( pid, kit, cymbals, sticks )
+  VALUES('p0015', 'Tama', 'Sabian', 'Vater' );
+
+INSERT INTO drummer( pid, kit, cymbals, sticks )
+  VALUES('p0018', 'Remo', 'Meinl', 'Gibraltar' );
+
+
+-- Bassist Table --
+INSERT INTO bassist( pid, bass, strings, amp )
+  VALUES('p0003', 'Fender Jazz', 'Daddario', 'Orange' );
+
+INSERT INTO bassist( pid, bass, strings, amp )
+  VALUES('p0006', 'ESP', 'Dunlop', 'Ampeg' );
+
+INSERT INTO bassist( pid, bass, strings, amp )
+  VALUES('p0010', 'Spector', 'GHS', 'Randall' );
+
+INSERT INTO bassist( pid, bass, strings, amp )
+  VALUES('p0014', 'Ibanez', 'Ernie Ball', 'Orange' );
+
+INSERT INTO bassist( pid, bass, strings, amp )
+  VALUES('p0016', 'Gibson', 'Ernie BAll', 'Fender' );
+
+
+
+-- Keyboardist Table --
+INSERT INTO keyboardist( pid, keyboard, keyNumber )
+  VALUES('p0019', 'Yamaha', 88 );
+
+
+
+-- Label Table --
+INSERT INTO label( lid, name, city, state, country )
+  VALUES( 'l001', 'Vertigo', 'London', 'n/a', 'England' );
+
+INSERT INTO label( lid, name, city, state, country )
+  VALUES( 'l002', 'Metal Blade', 'Agoura Hills', 'CA', 'USA' );
+
+INSERT INTO label( lid, name, city, state, country )
+  VALUES( 'l003', 'Relapse', 'Upper Darby', 'PA', 'USA' );
+
+INSERT INTO label( lid, name, city, state, country )
+  VALUES( 'l004', 'Roadrunner', 'New York', 'NY', 'USA' );
+
+
+
+-- Band Table --
+INSERT INTO band( bid, name, yearFormed, homeCity, homeState, homeCountry, genre, lid )
+  VALUES('b0001', 'Black Sabbath', 1968, 'Birmingham', 'n/a', 'England', 'Heavy Metal', 'l001' );
+
+INSERT INTO band( bid, name, yearFormed, homeCity, homeState, homeCountry, genre, lid )
+  VALUES('b0002', 'Machine Head', 1991, 'Oakland', 'CA', 'USA', 'Thrash Metal', 'l004' );
+
+INSERT INTO band( bid, name, yearFormed, homeCity, homeState, homeCountry, genre, lid )
+  VALUES('b0003', 'Cannibal Corpse', 1988, 'Buffalo', 'NY', 'USA', 'Death Metal', 'l002' );
+
+INSERT INTO band( bid, name, yearFormed, homeCity, homeState, homeCountry, genre, lid )
+  VALUES('b0004', 'Revocation', 2000, 'Boston', 'MA', 'USA', 'Thrash Metal', 'l002' );
+
+INSERT INTO band( bid, name, yearFormed, homeCity, homeState, homeCountry, genre, lid )
+  VALUES('b0005', 'Red Fang', 2005, 'Portland', 'OR', 'USA', 'Hard Rock', 'l003' );
+
+
+
+-- PlaysIn Table --
+INSERT INTO playsin( pid, bid )
+  VALUES('p0001', 'b0001' );
+
+INSERT INTO playsin( pid, bid )
+  VALUES('p0002', 'b0001' );
+
+INSERT INTO playsin( pid, bid )
+  VALUES('p0003', 'b0001' );
+
+INSERT INTO playsin( pid, bid )
+  VALUES('p0004', 'b0001' );
+
+INSERT INTO playsin( pid, bid )
+  VALUES('p0005', 'b0002' );
+
+INSERT INTO playsin( pid, bid )
+  VALUES('p0006', 'b0002' );
+
+INSERT INTO playsin( pid, bid )
+  VALUES('p0007', 'b0002' );
+
+INSERT INTO playsin( pid, bid )
+  VALUES('p0008', 'b0002' );
+
+INSERT INTO playsin( pid, bid )
+  VALUES('p0009', 'b0003' );
+
+INSERT INTO playsin( pid, bid )
+  VALUES('p0010', 'b0003' );
+
+INSERT INTO playsin( pid, bid )
+  VALUES('p0011', 'b0003' );
+
+INSERT INTO playsin( pid, bid )
+  VALUES('p0012', 'b0003' );
+
+INSERT INTO playsin( pid, bid )
+  VALUES('p0013', 'b0004' );
+
+INSERT INTO playsin( pid, bid )
+  VALUES('p0014', 'b0004' );
+
+INSERT INTO playsin( pid, bid )
+  VALUES('p0015', 'b0004' );
+
+INSERT INTO playsin( pid, bid )
+  VALUES('p0019', 'b0004' );
+
+INSERT INTO playsin( pid, bid )
+  VALUES('p0016', 'b0005' );
+
+INSERT INTO playsin( pid, bid )
+  VALUES('p0017', 'b0005' );
+
+INSERT INTO playsin( pid, bid )
+  VALUES('p0018', 'b0005' );
+
+
+
+-- Studio Table --
+INSERT INTO studio( sid, name, city, state, country )
+  VALUES( 's001', 'Atlas Studios', 'Oakland', 'CA', 'USA' );
+
+INSERT INTO studio( sid, name, city, state, country )
+  VALUES( 's002', 'God City Studios', 'Boston', 'MA', 'USA' );
+
+INSERT INTO studio( sid, name, city, state, country )
+  VALUES( 's003', 'Regent Sound Studios', 'London', 'n/a', 'England' );
+
+INSERT INTO studio( sid, name, city, state, country )
+  VALUES( 's004', 'Foreign Lore Studio', 'Portland', 'OR', 'USA' );
+
+INSERT INTO studio( sid, name, city, state, country )
+  VALUES( 's005', 'Mana Studios', 'Tampa', 'FL', 'USA' );
+
+
+
+-- Rec Session Table --
+INSERT INTO recsession( sid, bid, startDate, endDate )
+  VALUES( 's003', 'b0001', '10/16/69', '10/17/69' );
+
+INSERT INTO recsession( sid, bid, startDate, endDate )
+  VALUES( 's002', 'b0004', '08/20/13', '09/15/13' );
+
+INSERT INTO recsession( sid, bid, startDate, endDate )
+  VALUES( 's005', 'b0003', '02/16/12', '02/22/12' );
+
+INSERT INTO recsession( sid, bid, startDate, endDate )
+  VALUES( 's001', 'b0002', '04/07/10', '04/28/10' );
+
+
+
+-- Album Table --
+INSERT INTO album( aid, title, bid, lid, releaseYear )
+  VALUES( 'a00001', 'Black Sabbath', 'b0001', 'l001', 1969 );
+
+INSERT INTO album( aid, title, bid, lid, releaseYear )
+  VALUES( 'a00002', 'The Blackening', 'b0002', 'l004', 2007 );
+
+INSERT INTO album( aid, title, bid, lid, releaseYear )
+  VALUES( 'a00003', 'Evisceration Plague', 'b0003', 'l002', 2009 );
+
+INSERT INTO album( aid, title, bid, lid, releaseYear )
+  VALUES( 'a00004', 'Revocation', 'b0004', 'l003', 2013 );
+
+INSERT INTO album( aid, title, bid, lid, releaseYear )
+  VALUES( 'a00005', 'Whales and Leeches', 'b0005', 'l003', 2013 );
+
+
+
+-- Track Table --
+INSERT INTO track( name, aid, lengthMin )
+  VALUES( 'The Wizard', 'a00001', 5 );
+
+INSERT INTO track( name, aid, lengthMin )
+  VALUES( 'Black Sabbath', 'a00001', 6 );
+
+INSERT INTO track( name, aid, lengthMin )
+  VALUES( 'Halo', 'a00002', 8 );
+
+INSERT INTO track( name, aid, lengthMin )
+  VALUES( 'Clenching the Fists of Dissent', 'a00002', 11 );
+
+INSERT INTO track( name, aid, lengthMin )
+  VALUES( 'Cauldron of Hate', 'a00003', 4 );
+
+INSERT INTO track( name, aid, lengthMin )
+  VALUES( 'Scalding Hail', 'a00003', 3 );
+
+INSERT INTO track( name, aid, lengthMin )
+  VALUES( 'Invidious', 'a00004', 5 );
+
+INSERT INTO track( name, aid, lengthMin )
+  VALUES( 'Fracked', 'a00004', 3 );
+
+INSERT INTO track( name, aid, lengthMin )
+  VALUES( 'Blood Like Cream', 'a00005', 4 );
+
+INSERT INTO track( name, aid, lengthMin )
+  VALUES( 'DOEN', 'a00005', 4 );
+
+
+
+-- Views --
+
+
+
+-- View to see all guitarists in the Thrash genre --
+
+CREATE VIEW ThrashGuitarists
+AS
+SELECT p.firstname, p.lastname, b.name
+FROM band b, playsin i, people p, guitarist g
+WHERE b.bid = i.bid
+  AND p.pid = i.pid
+  AND g.pid = p.pid
+  AND b.genre = 'Thrash Metal'
+
+
+-- View to see all guitarists (and their bands) who prefer Jackson instruments --
+
+CREATE VIEW JacksonGuitarists
+AS
+SELECT p.firstname, p.lastname, b.name
+FROM band b, playsin i, people p, guitarist g
+WHERE b.bid = i.bid
+  AND p.pid = i.pid
+  AND g.pid = p.pid
+  AND g.guitar LIKE 'Jackson%'
+
+
+
+
+
+-- Sample Reports --
+
+
+-- The two labels that put out the most Thrash albums --
+
+select l.name, count(l.name)
+from album a, label l, band b
+where a.lid = l.lid
+  and a.bid = b.bid
+  and b.genre = 'Thrash Metal'
+group by l.name
+order by count(l.name) desc
+limit 2
+
+
+-- People that have recorded albums in the same city in which they were born --
+
+select p.firstname, p.lastname
+from people p, band b, playsin i, recsession r, studio s
+where p.pid = i.pid
+  and i.bid = b.bid
+  and b.bid = r.bid
+  and r.sid = s.sid
+  and p.birthCity = s.city
+
+
+
+
+-- Stored Procedures --
+
+
+
+-- Procedure IsInBand --
+
+create or replace function IsInBand(text, text, REFCURSOR) returns refcursor as 
+$$
+declare
+   firstn text       := $1;
+   lastn text       := $2;
+   resultset   REFCURSOR := $3;
+begin
+   open resultset for 
+      select b.name
+      from   band b, people p, playsin i
+       where  p.pid = i.pid
+         and  b.bid = i.bid
+         and  firstName = firstn
+         and  lastName = lastn;
+   return resultset;
+end;
+$$ 
+language plpgsql;
+
+select IsInBand('Robb', 'Flynn', 'results');
+Fetch all from results;
+
+
+
+-- HasRange --
+
+create or replace function HasRange(text, REFCURSOR) returns refcursor as 
+$$
+declare
+   range       text       := $1;
+   resultset   REFCURSOR  := $2;
+begin
+   open resultset for 
+      select p.firstname, p.lastname
+      from   people p, vocalist v
+       where p.pid = v.pid 
+         and range = v.vocalRange;
+   return resultset;
+end;
+$$ 
+language plpgsql;
+
+select HasRange('Baritone', 'results');
+Fetch all from results;
+
+
+
+
+
+
+-- Security --
+
+CREATE ROLE admin
+CREATE ROLE publicuser
+
+
+GRANT ALL PRIVILEGES 
+ON ALL TABLES IN SCHEMA PUBLIC
+TO admin
+
+GRANT SELECT
+ON ALL TABLES IN SCHEMA PUBLIC
+TO publicuser
+
+
+
+
+
+
+
+
+
